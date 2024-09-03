@@ -11,30 +11,11 @@ function Login() {
 
   let onChangeEmail = (e) => {
     setEmail(e.target.value)
-    console.log(email)
   }
 
   let onChangeSenha = (e) => {
     setSenha(e.target.value)
-    console.log(senha)
   }
-
-  let logar = () => {
-    axios.post("http://localhost:8080/login", 
-    {
-        "email": email,
-        "senha": senha
-    
-    }
-  ).then(resp => {
-    //gravando na sessão do cliente local (no frontend)
-    console.log(resp)
-    sessionStorage.setItem("sessionID", resp?.data?.sessionID)
-
-    }).catch(error => {    
-        console.log(error)
-    });
-  } 
 
   let entrar = () => {
     axios.post("http://localhost:8080/login", 
@@ -49,7 +30,6 @@ function Login() {
     if(resp?.data?.sessionID){
       sessionStorage.setItem("sessionID", resp.data.sessionID)
       
-      //redireciona o navegador para a home no netflix
       navigate('home');
 
     }
@@ -61,33 +41,11 @@ function Login() {
   } 
 
 
-  let testar = () => {
-    axios.get("http://localhost:8080/test", 
-    {
-      headers: {
-        'Authorization': sessionStorage.getItem("sessionID")
-      }
-    }
-    ).then(resp => {
-     
-      setResponse(resp)
-      console.log(resp.data)
-
-    }).catch(function (error) {    
-        console.log(error)
-    });
-
-  }
-
   return (
     <div className="App">
       <header className="App-header">
           <label>Email:</label> <input onChange={onChangeEmail}></input>
           <label>Senha:</label> <input onChange={onChangeSenha}></input>
-
-          <button onClick={logar}>Logar</button>
-
-          <button onClick={testar}>Testar</button>
 
           <button onClick={entrar}>Entrar</button>
 
